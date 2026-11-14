@@ -1,0 +1,489 @@
+
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday My Princess</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Quicksand:wght@400;500;600;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    overflow: hidden;
+    font-family: 'Quicksand', sans-serif;
+    background: linear-gradient(135deg, #ffe4ed, #ffd1df, #fff0f5);
+}
+
+.stage {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+}
+
+.top-text {
+    color: #b66b87;
+    letter-spacing: 4px;
+    font-size: 12px;
+    margin-bottom: 45px;
+}
+
+.hint {
+    color: #b66b87;
+    margin-top: 45px;
+    font-size: 13px;
+    letter-spacing: 1px;
+}
+
+/* PHONG BI */
+
+.envelope-wrap {
+    position: relative;
+    width: min(340px, 82vw);
+    height: 220px;
+    perspective: 1000px;
+}
+
+.envelope {
+    position: absolute;
+    inset: 0;
+}
+
+.envelope-back {
+    position: absolute;
+    inset: 0;
+    background: #e99bb5;
+    border-radius: 5px;
+    box-shadow: 0 15px 35px #bd789455;
+}
+
+.paper {
+    position: absolute;
+    width: 88%;
+    height: 90%;
+    left: 6%;
+    bottom: 5px;
+    background: #fffdfd;
+    border-radius: 5px;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #cf829d;
+    font-family: 'Great Vibes', cursive;
+    font-size: 30px;
+    transition: transform 1s ease, z-index 0s 0.5s;
+}
+
+.envelope-front {
+    position: absolute;
+    inset: 0;
+    background: #f2b2c7;
+    clip-path: polygon(0 0, 50% 58%, 100% 0, 100% 100%, 0 100%);
+    z-index: 3;
+}
+
+.flap {
+    position: absolute;
+    inset: 0;
+    background: #e99bb5;
+    clip-path: polygon(0 0, 100% 0, 50% 70%);
+    transform-origin: top;
+    transition: transform 0.8s ease;
+    z-index: 5;
+}
+
+.heart {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 7;
+    width: 58px;
+    height: 58px;
+    border: none;
+    border-radius: 50%;
+    background: #fff5f8;
+    color: #e56c98;
+    font-size: 27px;
+    cursor: pointer;
+    box-shadow: 0 4px 15px #a95d7b44;
+    transition: 0.3s;
+}
+
+.heart:hover {
+    transform: translate(-50%, -50%) scale(1.15);
+}
+
+/* HIỆU ỨNG MỞ PHONG BÌ */
+
+.stage.opened .flap {
+    transform: rotateX(180deg);
+    z-index: 1;
+}
+
+.stage.opened .paper {
+    transform: translateY(-125px);
+    z-index: 6;
+    transition: transform 1s ease;
+}
+
+.stage.opened .heart {
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* LỜI CHÚC */
+
+.letter-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 10;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    background: #512b3d55;
+    backdrop-filter: blur(5px);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.7s ease;
+}
+
+.letter-modal.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.letter-card {
+    position: relative;
+    width: min(450px, 94vw);
+    max-height: 85vh;
+    overflow-y: auto;
+    background: #fffafc;
+    border-radius: 18px;
+    padding: 35px 27px;
+    text-align: center;
+    box-shadow: 0 15px 50px #512b3d44;
+    transform: translateY(35px) scale(0.95);
+    transition: transform 0.7s ease;
+}
+
+.letter-modal.show .letter-card {
+    transform: translateY(0) scale(1);
+}
+
+.rose {
+    font-size: 42px;
+    margin-bottom: 12px;
+}
+
+.birthday-title {
+    color: #df779b;
+    font-size: 25px;
+    letter-spacing: 3px;
+    margin-bottom: 10px;
+}
+
+.letter-heading {
+    font-family: 'Great Vibes', cursive;
+    color: #bd6386;
+    font-size: 42px;
+    margin-bottom: 20px;
+}
+
+.message {
+    color: #765361;
+    font-size: 14px;
+    line-height: 2;
+}
+
+.signature {
+    margin-top: 25px;
+    color: #cf7295;
+    font-family: 'Great Vibes', cursive;
+    font-size: 27px;
+}
+
+.close-btn {
+    margin-top: 25px;
+    padding: 10px 25px;
+    border: none;
+    border-radius: 30px;
+    background: #e99bb5;
+    color: white;
+    cursor: pointer;
+    font-family: inherit;
+}
+
+/* PHÁO HOA */
+
+#fireworks {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 5;
+    pointer-events: none;
+}
+
+@media (max-width: 480px) {
+    .top-text {
+        font-size: 10px;
+    }
+
+    .letter-card {
+        padding: 28px 20px;
+    }
+
+    .birthday-title {
+        font-size: 21px;
+    }
+
+    .message {
+        font-size: 13px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="fireworks"></canvas>
+
+<main class="stage" id="stage">
+
+    <div class="top-text">A LITTLE LETTER FOR YOU</div>
+
+    <div class="envelope-wrap">
+        <div class="envelope">
+
+            <div class="envelope-back"></div>
+
+            <div class="paper">
+                For Cục Bông ♡
+            </div>
+
+            <div class="envelope-front"></div>
+
+            <div class="flap"></div>
+
+            <button class="heart" id="openBtn">♥</button>
+
+        </div>
+    </div>
+
+    <div class="hint">Chạm vào trái tim để mở thư nhé ♡</div>
+
+</main>
+
+<section class="letter-modal" id="letterModal">
+
+    <div class="letter-card">
+
+        <div class="rose">🌹</div>
+
+        <div class="birthday-title">
+            HAPPY BIRTHDAY
+        </div>
+
+        <div class="letter-heading">
+            Gửi em yêu ♡
+        </div>
+
+        <div class="message">
+            Hôm nay là một ngày thật đặc biệt,
+            ngày một thiên thần được sinh ra. 💗
+            <br><br>
+
+            Anh muốn gửi đến em những lời chúc
+            chân thành và ngọt ngào nhất.
+            <br><br>
+
+            Chúc em luôn hạnh phúc, luôn mỉm cười
+            và mọi điều tốt đẹp sẽ đến với em.
+            <br><br>
+
+            Mong rằng tuổi mới của em sẽ có thật
+            nhiều niềm vui, tiếng cười và những
+            khoảnh khắc đáng nhớ.
+            <br><br>
+
+            Hãy luôn là chính mình nhé.
+            Em xứng đáng với tất cả những điều
+            tuyệt vời nhất.
+            <br><br>
+
+            Happy Birthday, Cục Bông! 💗
+        </div>
+
+        <div class="signature">
+            With all my love ❤️
+        </div>
+
+        <button class="close-btn" id="closeBtn">
+            Đóng lá thư
+        </button>
+
+    </div>
+
+</section>
+
+<script>
+const stage = document.getElementById("stage");
+const openBtn = document.getElementById("openBtn");
+const letterModal = document.getElementById("letterModal");
+const closeBtn = document.getElementById("closeBtn");
+
+let opened = false;
+
+/* CLICK TRÁI TIM */
+
+openBtn.addEventListener("click", function() {
+
+    if (opened) return;
+
+    opened = true;
+
+    stage.classList.add("opened");
+
+    setTimeout(function() {
+        letterModal.classList.add("show");
+        startFireworks();
+    }, 1100);
+
+});
+
+/* ĐÓNG THƯ */
+
+closeBtn.addEventListener("click", function() {
+    letterModal.classList.remove("show");
+});
+
+letterModal.addEventListener("click", function(event) {
+    if (event.target === letterModal) {
+        letterModal.classList.remove("show");
+    }
+});
+
+/* PHÁO HOA */
+
+const canvas = document.getElementById("fireworks");
+const ctx = canvas.getContext("2d");
+
+let particles = [];
+let fireworksRunning = false;
+
+function resizeCanvas() {
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+    canvas.width = window.innerWidth * dpr;
+    canvas.height = window.innerHeight * dpr;
+
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+}
+
+window.addEventListener("resize", resizeCanvas);
+resizeCanvas();
+
+function createFirework(x, y) {
+
+    const hue = Math.random() * 360;
+
+    for (let i = 0; i < 65; i++) {
+
+        const angle = Math.random() * Math.PI * 2;
+        const speed = Math.random() * 4 + 1;
+
+        particles.push({
+            x: x,
+            y: y,
+            vx: Math.cos(angle) * speed,
+            vy: Math.sin(angle) * speed,
+            life: 1,
+            hue: hue
+        });
+
+    }
+}
+
+function startFireworks() {
+
+    if (fireworksRunning) return;
+
+    fireworksRunning = true;
+
+    let count = 0;
+
+    const interval = setInterval(function() {
+
+        const x = Math.random() * window.innerWidth;
+        const y = Math.random() * window.innerHeight * 0.65;
+
+        createFirework(x, y);
+
+        count++;
+
+        if (count >= 12) {
+            clearInterval(interval);
+        }
+
+    }, 450);
+
+    animateFireworks();
+}
+
+function animateFireworks() {
+
+    if (!fireworksRunning) return;
+
+    ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+
+    particles.forEach(function(particle) {
+
+        particle.x += particle.vx;
+        particle.y += particle.vy;
+
+        particle.vy += 0.035;
+        particle.life -= 0.012;
+
+        ctx.beginPath();
+
+        ctx.arc(
+            particle.x,
+            particle.y,
+            2,
+            0,
+            Math.PI * 2
+        );
+
+        ctx.fillStyle =
+            `hsla(${particle.hue}, 100%, 70%, ${particle.life})`;
+
+        ctx.fill();
+
+    });
+
+    particles = particles.filter(function(particle) {
+        return particle.life > 0;
+    });
+
+    requestAnimationFrame(animateFireworks);
+}
+</script>
+
+</body>
+</html>
